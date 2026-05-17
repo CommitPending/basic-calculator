@@ -10,8 +10,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import java.util.stream.Collectors;
-
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     
@@ -26,14 +24,17 @@ public class GlobalExceptionHandler {
     
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleValidationErrors(MethodArgumentNotValidException ex) {
-        String details = ex.getBindingResult()
-                .getFieldErrors()
-                .stream()
-                .map(FieldError::getDefaultMessage)
-                .collect(Collectors.joining(", "));
+        StringBuilder details = new StringBuilder();
+        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
+            if (details.length() > 0) {
+                details.append(", ");
+            }
+            details.append(error.getDefaultMessage());
+        }
         
-        logger.error("Validation error: {}", details);
-        ErrorResponse error = ErrorResponse.of("Validation Error", details);
+        String detailsStr = details.toString();
+        logger.error("Validation error: {}", detailsStr);
+        ErrorResponse error = ErrorResponse.of("Validation Error", detailsStr);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
     }
     
