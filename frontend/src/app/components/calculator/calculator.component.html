@@ -1,0 +1,43 @@
+<div class="calculator" [class.dark-mode]="isDarkMode" [class.light-mode]="!isDarkMode">
+  <div class="calculator-header">
+    <h1>Calculator</h1>
+    <button class="theme-toggle" (click)="toggleTheme()" title="Toggle Theme">
+      <span *ngIf="isDarkMode">☀️</span>
+      <span *ngIf="!isDarkMode">🌙</span>
+    </button>
+  </div>
+  
+  <div class="display-container">
+    <div class="display">{{ display }}</div>
+    <div class="error-message" *ngIf="errorMessage">{{ errorMessage }}</div>
+  </div>
+  
+  <div class="buttons">
+    <button class="btn btn-function" (click)="clear()">C</button>
+    <button class="btn btn-function" (click)="backspace()">←</button>
+    <button class="btn btn-operator" (click)="performOperation('/')">/</button>
+    <button class="btn btn-operator" (click)="performOperation('*')">×</button>
+    
+    <button class="btn btn-number" (click)="inputDigit('7')">7</button>
+    <button class="btn btn-number" (click)="inputDigit('8')">8</button>
+    <button class="btn btn-number" (click)="inputDigit('9')">9</button>
+    <button class="btn btn-operator" (click)="performOperation('-')">-</button>
+    
+    <button class="btn btn-number" (click)="inputDigit('4')">4</button>
+    <button class="btn btn-number" (click)="inputDigit('5')">5</button>
+    <button class="btn btn-number" (click)="inputDigit('6')">6</button>
+    <button class="btn btn-operator" (click)="performOperation('+')">+</button>
+    
+    <button class="btn btn-number" (click)="inputDigit('1')">1</button>
+    <button class="btn btn-number" (click)="inputDigit('2')">2</button>
+    <button class="btn btn-number" (click)="inputDigit('3')">3</button>
+    <button class="btn btn-equals" (click)="performOperation('=')">=</button>
+    
+    <button class="btn btn-number btn-zero" (click)="inputDigit('0')">0</button>
+    <button class="btn btn-number" (click)="inputDecimal()">.</button>
+  </div>
+  
+  <div class="keyboard-hint">
+    <small>💡 Keyboard shortcuts: Numbers, operators, Enter (=), Escape (C), Backspace</small>
+  </div>
+</div>

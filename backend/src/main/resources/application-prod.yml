@@ -1,0 +1,15 @@
+server:
+  port: ${PORT:8080}
+
+logging:
+  level:
+    com.calculator: WARN
+    org.springframework.web: WARN
+  file:
+    name: logs/calculator-backend.log
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health
